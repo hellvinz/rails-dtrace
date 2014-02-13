@@ -1,6 +1,9 @@
 require 'usdt'
 require 'active_support/core_ext/class/attribute_accessors'
 require 'rails-dtrace/provider'
+require 'naught'
+
+NullLogger = Naught.build
 
 module DTrace
   class Subscriber
@@ -13,7 +16,7 @@ module DTrace
 
     class << self
       def logger
-        @logger ||= Rails.logger if defined?(Rails)
+        @logger ||= defined?(Rails) ? Rails.logger : NullLogger.new
       end
 
       def provider

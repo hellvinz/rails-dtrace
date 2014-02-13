@@ -15,11 +15,11 @@ describe DTrace::Subscriber do
   subject { DTrace::Subscriber }
 
   let(:provider) {TestProvider.new}
-  let(:logger) { TestLogger.new }
+  #let(:logger) { TestLogger.new }
 
   before do
     subject.stub(:provider).and_return(provider)
-    subject.stub(:logger).and_return(logger)
+    #subject.stub(:logger).and_return(logger)
     subject.probes.clear
   end
 
@@ -51,6 +51,8 @@ describe DTrace::Subscriber do
       end
 
       it "logs the new probe name" do
+        logger = TestLogger.new
+        subject.stub(:logger).and_return(logger)
         subject.find_or_create_probe("test.notification", "event")
         logger.latest_entry.should == "Adding DTrace probe: test.notification::event"
       end
